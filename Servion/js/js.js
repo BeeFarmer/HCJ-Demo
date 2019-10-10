@@ -1,3 +1,4 @@
+"use strict";
 
 const CAPACITY = 5;
 const INIT_STACK = new Array(CAPACITY).fill(null);
@@ -8,16 +9,57 @@ View(newModel, newContainer);
 
 function Model() {
   let _subscriber;
-  let _stack = [];
+  let _stack = INIT_STACK;
   let _input;
-  let _index = 0;
+  let _index = CAPACITY - 1;
 
   function _getInput(input) {
     _input = input;
   }
 
-  function _push() {
-    _stack.unshift(_input);
+  const _invalidMsg = () => alert("Operation not allowed!");
+
+  function _action(type) {
+    switch (type) {
+      case "push":
+        if (_index === -1) { alert("Stack was already full!") }
+        if (_input) {
+          _stack[_index--] = _input;
+        }
+        break;
+      case "pop":
+        if (_index !== CAPACITY - 1) {
+          _stack[++_index] = null;
+        } else {
+          _invalidMsg();
+        }
+        break;
+      case "empty":
+        const msg = (_index === CAPACITY - 1) ? 
+                    "Yes, Stack is empty" :
+                    "No, Stack is not empty";
+        alert(msg);
+        break;
+      case "peak":
+        if (_stack[_index+1]) { 
+          alert(_stack[_index+1]); 
+        } else {
+          _invalidMsg();
+        }
+        break;
+      case "swap":
+        if (_index <= CAPACITY - 3) {
+          const temp = _stack[_index+1];
+          _stack[_index+1] = _stack[_index+2];
+          _stack[_index+2] = temp;
+        } else {
+          _invalidMsg();
+        }
+        break;
+      default:
+        _invalidMsg();
+    }
+    
     _subscriber(_stack);
   }
 
@@ -28,7 +70,7 @@ function Model() {
       }
     },
     getInput: _getInput,
-    push: _push
+    action: _action
   };
 }
 
@@ -41,9 +83,10 @@ function View(model, container) {
     model.getInput(cur_input);
   })
 
-  const btnElem = document.querySelector(".btn");
-  btnElem.addEventListener("click", function(e){
-    model.push();
+  const clickElem = document.querySelector(".stack-action");
+  clickElem.addEventListener("click", function(e){
+    let actionType = e.target.classList[0];
+    model.action(actionType);
   })
 
   function render(data = INIT_STACK) {
