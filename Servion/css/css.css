@@ -1,0 +1,11 @@
+.stack {
+  margin: 30px 20px;
+}
+
+.stack-cell {
+  border: 3px black solid;
+  text-align: center;
+  line-height: 40px;
+  width: 100px;
+  height: 40px;
+}
