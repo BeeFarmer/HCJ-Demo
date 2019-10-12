@@ -23,7 +23,7 @@ function Model() {
         --_index;
         if (_index === -1) { _index = _imgList.length - 1; }
         break;
-      case "next":console.log(123);
+      case "next":
         ++_index;
         if (_index === _imgList.length) { _index = 0; }
         break;
@@ -33,14 +33,13 @@ function Model() {
     _subscriber(_imgList[_index]);
   }
 
-  function _update() {console.log("_update");
-    this._action("next");
+  function _update() {
+    _action("next");
   }
 
   function _slide(checked) {
     if (checked) {
-      _intervalId = setInterval(this._update, 1000);
-      console.log("_slide");
+      _intervalId = setInterval(_update, 3000);
     } else {
       clearInterval(_intervalId);
       _intervalId = null;
