@@ -15,6 +15,7 @@ function Model() {
   let _subscriber;
   let _imgList = IMAGE_LIST;
   let _index = 0;
+  let _intervalId;
 
   function _action(type) {
     switch (type) {
@@ -22,7 +23,7 @@ function Model() {
         --_index;
         if (_index === -1) { _index = _imgList.length - 1; }
         break;
-      case "next":
+      case "next":console.log(123);
         ++_index;
         if (_index === _imgList.length) { _index = 0; }
         break;
@@ -32,13 +33,28 @@ function Model() {
     _subscriber(_imgList[_index]);
   }
 
+  function _update() {console.log("_update");
+    this._action("next");
+  }
+
+  function _slide(checked) {
+    if (checked) {
+      _intervalId = setInterval(this._update, 1000);
+      console.log("_slide");
+    } else {
+      clearInterval(_intervalId);
+      _intervalId = null;
+    }
+  }
+
   return {
     subscribe: function(cb) {
       if (!_subscriber) {
         _subscriber = cb;
       }
     },
-    action: _action
+    action: _action,
+    slide: _slide
   };
 
 }
@@ -47,7 +63,14 @@ function View(model, container) {
 
   const clickElem = document.querySelector(".carousel");
   clickElem.addEventListener('click', function(e){
+    //console.log(e.target.classList[0]);
     model.action(e.target.classList[0]);
+  })
+
+  const checkElem = document.querySelector(".slidebox");
+  checkElem.addEventListener('change', function(){
+    //console.log(this.checked);
+    model.slide(this.checked);
   })
 
   function render(data = IMAGE_LIST[0]) {
