@@ -27,6 +27,12 @@ function Model() {
         ++_index;
         if (_index === _imgList.length) { _index = 0; }
         break;
+      case "one":
+        _index = 0; break;
+      case "two":
+        _index = 1; break;
+      case "three":
+        _index = 2; break;
       default:
     }
 

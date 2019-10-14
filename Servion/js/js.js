@@ -22,10 +22,12 @@ function Model() {
   function _action(type) {
     switch (type) {
       case "push":
-        if (_index === -1) { alert("Stack was already full!") }
+
+        if (_index === -1) { alert("Stack was already full!"); return ; }
         if (_input) {
           _stack[_index--] = _input;
         }
+        console.log(_stack);
         break;
       case "pop":
         if (_index !== CAPACITY - 1) {
@@ -85,14 +87,15 @@ function View(model, container) {
 
   const clickElem = document.querySelector(".stack-action");
   clickElem.addEventListener("click", function(e){
-    let actionType = e.target.classList[0];
+    let actionType = e.target.classList[1];
     model.action(actionType);
   })
 
   function render(data = INIT_STACK) {
-    const cell = document.querySelector(".stack");
-    for (let i = CAPACITY; i > 0; --i) {
-      cell.children[i-1].innerHTML = data[i-1] ? data[i-1] : "";
+    //const cell = document.querySelector(".stack");
+    for (let i = 1; i <= CAPACITY; ++i) {
+      //cell.children[i-1].innerHTML = data[i-1] ? data[i-1] : "";
+      document.querySelector(`[id='${i}']`).innerHTML = data[CAPACITY-i] ? data[CAPACITY-i] : "";
     }
   }
 
