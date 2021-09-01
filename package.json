@@ -11,7 +11,10 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^5.2.1",
     "react-scripts": "^1.1.5",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "redux": "^3.6.0",
+    "react-redux": "7.2.4"
+
   },
   "scripts": {
     "start": "react-scripts start",
